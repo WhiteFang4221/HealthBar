@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,20 +18,20 @@ public class HeartFailure : MonoBehaviour
     private Animator _animator;
     private int _maxPercentHealth = 100;
 
+    private void Awake()
+    {
+        _player.OnHeartStateChanged += ChangeState;
+    }
+
     private void Start()
     {
         _animator = GetComponent<Animator>();
         _animator.SetInteger(AnimatorHeartController.Params.PlayerHealth, _maxPercentHealth);
     }
 
-    private void Update()
+    private void ChangeState(int maxHealth, int currentHealth)
     {
-        ChangeState();
-    }
-
-    private void ChangeState()
-    {
-        int currentPercentHealth = (_player.CurrentHealth * _maxPercentHealth) / _player.MaxHealth;
+        int currentPercentHealth = (currentHealth * _maxPercentHealth) / maxHealth;
         _animator.SetInteger(AnimatorHeartController.Params.PlayerHealth, currentPercentHealth);
     }
 }

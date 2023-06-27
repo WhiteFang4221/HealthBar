@@ -8,11 +8,12 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     [SerializeField] private Slider _slider;
+    [SerializeField] private Player _player;
 
     private void Awake()
     {
-        Player.OnHealthMaxSet += SetMaxHealth;
-        Player.OnHealthChanged += SetHealth;
+        _player.OnHealthMaxSet += SetMaxHealth;
+        _player.OnHealthChanged += SetHealth;
     }
     private void Start()
     {
@@ -20,8 +21,8 @@ public class HealthBar : MonoBehaviour
     }
     private void OnDestroy()
     {
-        Player.OnHealthMaxSet -= SetMaxHealth; 
-        Player.OnHealthChanged -= SetHealth;
+        _player.OnHealthMaxSet -= SetMaxHealth;
+        _player.OnHealthChanged -= SetHealth;
     }
 
     private void SetHealth(int health)
