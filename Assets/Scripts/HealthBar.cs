@@ -10,10 +10,14 @@ public class HealthBar : MonoBehaviour
     [SerializeField] private Slider _slider;
     [SerializeField] private Player _player;
 
+    public event Action<float, float> HeartStateChanged;
+
+    private float _healthSpeedChange = 30f;
+
     private void Awake()
     {
-        _player.OnHealthMaxSet += SetMaxHealth;
-        _player.OnHealthChanged += SetHealth;
+        _player.HealthMaxSet += SetMaxHealth;
+        _player.HealthChanged += SetHealth;
     }
     private void Start()
     {
@@ -21,18 +25,28 @@ public class HealthBar : MonoBehaviour
     }
     private void OnDestroy()
     {
-        _player.OnHealthMaxSet -= SetMaxHealth;
-        _player.OnHealthChanged -= SetHealth;
+        _player.HealthMaxSet -= SetMaxHealth;
+        _player.HealthChanged -= SetHealth;
     }
 
-    private void SetHealth(int health)
+    private void SetHealth(float health)
     {
-        _slider.value = health;
+        StartCoroutine(ChangeHealthBarState(health));
     }
 
-    private void SetMaxHealth(int maxHealth)
+    private void SetMaxHealth(float maxHealth)
     {
         _slider.maxValue = maxHealth;
         _slider.value = maxHealth;
+    }
+
+    private IEnumerator ChangeHealthBarState(float targetHealth)
+    {
+        while (_slider.value != targetHealth)
+        {
+            _slider.value = Mathf.MoveTowards(_slider.value, targetHealth, Time.deltaTime * _healthSpeedChange);
+            yield return null;
+        }
+        HeartStateChanged?.Invoke(_slider.maxValue, _slider.value);
     }
 }

@@ -6,33 +6,28 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private int _maxHealth;
+    [SerializeField] private float _maxHealth;
 
-    public event Action<int> OnHealthChanged;
-    public event Action<int> OnHealthMaxSet;
-    public event Action <int, int> OnHeartStateChanged;
+    public event Action<float> HealthChanged;
+    public event Action<float> HealthMaxSet;
 
-    private int _currentHealth;
+    private float _currentHealth;
 
     private void Start()
     {
         _currentHealth = _maxHealth;
-        OnHealthMaxSet?.Invoke(_currentHealth);
+        HealthMaxSet?.Invoke(_currentHealth);
     }
 
-    public void TakeDamage(int damagePoint)
+    public void TakeDamage(float damagePoint)
     {
-        _currentHealth -= damagePoint;
-        _currentHealth = Mathf.Clamp(_currentHealth, 0, _maxHealth);
-        OnHealthChanged?.Invoke(_currentHealth);
-        OnHeartStateChanged?.Invoke(_maxHealth,_currentHealth);
+        _currentHealth = Mathf.Clamp(_currentHealth - damagePoint, 0f, _maxHealth);
+        HealthChanged?.Invoke(_currentHealth);
     }
 
-    public void Heal(int healPoint)
+    public void Heal(float healPoint)
     {
-        _currentHealth += healPoint;
-        _currentHealth = Mathf.Clamp(_currentHealth, 0, _maxHealth);
-        OnHealthChanged?.Invoke(_currentHealth);
-        OnHeartStateChanged?.Invoke(_maxHealth, _currentHealth);
+        _currentHealth = Mathf.Clamp(_currentHealth + healPoint, 0f, _maxHealth);
+        HealthChanged?.Invoke(_currentHealth);
     }
 }

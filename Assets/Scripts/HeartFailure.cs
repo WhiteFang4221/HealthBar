@@ -14,24 +14,26 @@ public static class AnimatorHeartController
 
 public class HeartFailure : MonoBehaviour
 {
-    [SerializeField] private Player _player;
+    [SerializeField] private HealthBar _healthBar;
+
+
     private Animator _animator;
-    private int _maxPercentHealth = 100;
+    private float _maxPercentHealth = 100;
 
     private void Awake()
     {
-        _player.OnHeartStateChanged += ChangeState;
+        _healthBar.HeartStateChanged += ChangeState;
     }
 
     private void Start()
     {
         _animator = GetComponent<Animator>();
-        _animator.SetInteger(AnimatorHeartController.Params.PlayerHealth, _maxPercentHealth);
+        _animator.SetFloat(AnimatorHeartController.Params.PlayerHealth, _maxPercentHealth);
     }
 
-    private void ChangeState(int maxHealth, int currentHealth)
+    private void ChangeState(float maxHealth, float currentHealth)
     {
-        int currentPercentHealth = (currentHealth * _maxPercentHealth) / maxHealth;
-        _animator.SetInteger(AnimatorHeartController.Params.PlayerHealth, currentPercentHealth);
+        float currentPercentHealth = (currentHealth * _maxPercentHealth) / maxHealth;
+        _animator.SetFloat(AnimatorHeartController.Params.PlayerHealth, currentPercentHealth);
     }
 }
