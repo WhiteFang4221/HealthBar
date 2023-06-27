@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,9 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private HealthBar HealthBar;
     [SerializeField] private int _maxHealth;
+
+    public static Action <int> OnHealthChanged;
+    public static Action<int> OnHealthMaxSet;
 
     public int MaxHealth
     {
@@ -19,15 +23,15 @@ public class Player : MonoBehaviour
     private void Start()
     {
         CurrentHealth = _maxHealth;
-        HealthBar.SetMaxHealth(_maxHealth);
+        OnHealthMaxSet?.Invoke(_maxHealth);
     }
 
     public void TakeDamage(int damagePoint)
     {
         if (CurrentHealth > 0) 
         {
-            CurrentHealth -= damagePoint;
-            HealthBar.SetHealth(CurrentHealth);
+            CurrentHealth-= damagePoint;
+            OnHealthChanged?.Invoke(CurrentHealth);
         }
     }
 
@@ -36,7 +40,7 @@ public class Player : MonoBehaviour
         if (CurrentHealth < _maxHealth)
         {
             CurrentHealth += healPoint;
-            HealthBar.SetHealth(CurrentHealth);
+            OnHealthChanged?.Invoke(CurrentHealth);
         }
     }
 }
