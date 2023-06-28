@@ -295,7 +295,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a54a594c69dbda4d91d33832cc3aff5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 1057611602}
+  _healthBar: {fileID: 1760851948}
 --- !u!95 &285618402
 Animator:
   serializedVersion: 4
@@ -563,12 +563,12 @@ MonoBehaviour:
       - m_Target: {fileID: 1057611602}
         m_TargetAssemblyTypeName: Player, Assembly-CSharp
         m_MethodName: Heal
-        m_Mode: 3
+        m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 5
-          m_FloatArgument: 0
+          m_FloatArgument: 5
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
@@ -742,12 +742,12 @@ MonoBehaviour:
       - m_Target: {fileID: 1057611602}
         m_TargetAssemblyTypeName: Player, Assembly-CSharp
         m_MethodName: TakeDamage
-        m_Mode: 3
+        m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 5
-          m_FloatArgument: 0
+          m_FloatArgument: 5
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2

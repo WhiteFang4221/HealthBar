@@ -9,7 +9,7 @@ public class HealthBar : MonoBehaviour
 {
     [SerializeField] private Slider _slider;
     [SerializeField] private Player _player;
-
+    private Coroutine _healthBarChangerRoutine;
     public event Action<float, float> HeartStateChanged;
 
     private float _healthSpeedChange = 30f;
@@ -31,7 +31,11 @@ public class HealthBar : MonoBehaviour
 
     private void SetHealth(float health)
     {
-        StartCoroutine(ChangeHealthBarState(health));
+        if (_healthBarChangerRoutine != null)
+        {
+            StopCoroutine(_healthBarChangerRoutine);
+        }
+        _healthBarChangerRoutine = StartCoroutine(ChangeHealthBarState(health));
     }
 
     private void SetMaxHealth(float maxHealth)
