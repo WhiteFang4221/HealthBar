@@ -33,8 +33,8 @@ public class SmoothHealthBar : MonoBehaviour
             StopCoroutine(_healthBarChangerRoutine);
         }
 
-        HealthSliderChanged?.Invoke(_slider.maxValue, _slider.value);
         _healthBarChangerRoutine = StartCoroutine(ChangeHealthBarState(health));
+        HealthSliderChanged?.Invoke(_slider.maxValue, health);
     }
 
     private void SetMaxHealth(float maxHealth)
