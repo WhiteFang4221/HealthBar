@@ -10,13 +10,17 @@ public class HeartChanger : MonoBehaviour
 {
     [SerializeField] private SmoothHealthBar _healthBar;
 
-
     private Animator _animator;
     private float _maxPercentHealth = 100;
 
-    private void Awake()
+    private void OnEnable() 
     {
-        _healthBar.HeartStateChanged += ChangeState;
+        _healthBar.HealthSliderChanged += ChangeState;
+    }
+
+    private void OnDisable()
+    {
+        _healthBar.HealthSliderChanged -= ChangeState;
     }
 
     private void Start()

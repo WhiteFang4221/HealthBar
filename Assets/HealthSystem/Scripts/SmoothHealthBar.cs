@@ -8,9 +8,9 @@ public class SmoothHealthBar : MonoBehaviour
 {
     [SerializeField] private Slider _slider;
     [SerializeField] private Player _player;
-    private Coroutine _healthBarChangerRoutine;
-    public event Action<float, float> HeartStateChanged;
 
+    public event Action<float, float> HealthSliderChanged;
+    private Coroutine _healthBarChangerRoutine;
     private float _healthSpeedChange = 30f;
 
     private void Awake()
@@ -32,6 +32,8 @@ public class SmoothHealthBar : MonoBehaviour
         {
             StopCoroutine(_healthBarChangerRoutine);
         }
+
+        HealthSliderChanged?.Invoke(_slider.maxValue, _slider.value);
         _healthBarChangerRoutine = StartCoroutine(ChangeHealthBarState(health));
     }
 
@@ -48,6 +50,5 @@ public class SmoothHealthBar : MonoBehaviour
             _slider.value = Mathf.MoveTowards(_slider.value, targetHealth, Time.deltaTime * _healthSpeedChange);
             yield return null;
         }
-        HeartStateChanged?.Invoke(_slider.maxValue, _slider.value);
     }
 }
