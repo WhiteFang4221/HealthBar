@@ -4,10 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Slider))]
-public class SmoothHealthBar : MonoBehaviour
+public class SmoothHealthBar : HealthBar
 {
     [SerializeField] private Slider _slider;
-    [SerializeField] private Player _player;
 
     public event Action<float, float> HealthSliderChanged;
     private Coroutine _healthBarChangerRoutine;
@@ -15,18 +14,10 @@ public class SmoothHealthBar : MonoBehaviour
 
     private void Awake()
     {
-        _player.HealthMaxSet += SetMaxHealth;
-        _player.HealthChanged += SetHealth;
         _slider = GetComponent<Slider>();
     }
 
-    private void OnDestroy()
-    {
-        _player.HealthMaxSet -= SetMaxHealth;
-        _player.HealthChanged -= SetHealth;
-    }
-
-    private void SetHealth(float health)
+    protected override void SetHealth(float health)
     {
         if (_healthBarChangerRoutine != null)
         {
@@ -37,7 +28,7 @@ public class SmoothHealthBar : MonoBehaviour
         HealthSliderChanged?.Invoke(_slider.maxValue, health);
     }
 
-    private void SetMaxHealth(float maxHealth)
+    protected override void SetMaxHealth(float maxHealth)
     {
         _slider.maxValue = maxHealth;
         _slider.value = maxHealth;
