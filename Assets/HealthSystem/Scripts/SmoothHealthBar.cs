@@ -17,7 +17,7 @@ public class SmoothHealthBar : HealthBar
         _slider = GetComponent<Slider>();
     }
 
-    protected override void SetHealth(float health)
+    protected override void ShowNewValue(float health)
     {
         if (_healthBarChangerRoutine != null)
         {
@@ -26,12 +26,6 @@ public class SmoothHealthBar : HealthBar
 
         _healthBarChangerRoutine = StartCoroutine(ChangeHealthBarState(health));
         HealthSliderChanged?.Invoke(_slider.maxValue, health);
-    }
-
-    protected override void SetMaxHealth(float maxHealth)
-    {
-        _slider.maxValue = maxHealth;
-        _slider.value = maxHealth;
     }
 
     private IEnumerator ChangeHealthBarState(float targetHealth)

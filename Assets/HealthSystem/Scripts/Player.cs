@@ -10,7 +10,19 @@ public class Player : MonoBehaviour
 
     private float _currentHealth;
 
-    private void Start()
+    public float CurrentHealth
+    {
+        get
+        {
+            return _currentHealth;
+        }
+        private set
+        {
+            _currentHealth = value;
+        }
+    }
+
+    private void Awake()
     {
         _currentHealth = _maxHealth;
         HealthMaxSet?.Invoke(_currentHealth);
